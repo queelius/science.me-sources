@@ -1,0 +1,44 @@
+name: capture
+
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: capture
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      # A failed source does not stop the others: what was captured is committed, then the job reports failure.
+      - run: python -I capture.py || echo "status=$?" >> "$GITHUB_ENV"
+      # Captures only add files and append log lines, so a push rejected because the branch moved is rebased
+      # and tried again.
+      - run: |
+          git add captures
+          git diff --cached --quiet && exit 0
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "capture: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for attempt in 1 2 3 4 5; do
+            git pull -q --rebase && git push -q && exit 0
+            sleep $((attempt * 10))
+          done
+          exit 1
+      # A vintage that could not be pushed is kept with the run, so a later revision cannot make it unrecoverable.
+      - if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: captures-${{ github.run_id }}
+          path: captures
+          retention-days: 90
+      - run: exit "${status:-0}"

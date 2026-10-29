@@ -1,0 +1,13 @@
+[project]
+name = "science-me-sources"
+version = "0.1.0"
+description = "Raw captures, with provenance, of public data sources for science.me"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-cov>=5"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

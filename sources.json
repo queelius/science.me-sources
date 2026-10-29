@@ -1,0 +1,30 @@
+{
+  "sources": [
+    {
+      "id": "nhsn-hrd",
+      "about": "Weekly Hospital Respiratory Data (HRD) Metrics by Jurisdiction, NHSN. Updated Fridays. Public Domain U.S. Government.",
+      "domain": "data.cdc.gov",
+      "dataset": "ua7e-t2fy",
+      "columns": [
+        "weekendingdate", "jurisdiction", "numinptbedshosprep",
+        "totalconfflunewadm", "totalconfflunewadmhosprep", "totalconfflunewadmperchosprep",
+        "totalconfc19newadm", "totalconfc19newadmhosprep",
+        "totalconfrsvnewadm", "totalconfrsvnewadmhosprep"
+      ],
+      "order": ["weekendingdate", "jurisdiction"]
+    },
+    {
+      "id": "nhsn-hrd-preliminary",
+      "about": "The same metrics, preliminary release. Updated Wednesdays. Public Domain U.S. Government.",
+      "domain": "data.cdc.gov",
+      "dataset": "mpgq-jmmr",
+      "columns": [
+        "weekendingdate", "jurisdiction", "numinptbedshosprep",
+        "totalconfflunewadm", "totalconfflunewadmhosprep", "totalconfflunewadmperchosprep",
+        "totalconfc19newadm", "totalconfc19newadmhosprep",
+        "totalconfrsvnewadm", "totalconfrsvnewadmhosprep"
+      ],
+      "order": ["weekendingdate", "jurisdiction"]
+    }
+  ]
+}
